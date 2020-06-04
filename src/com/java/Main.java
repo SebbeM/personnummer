@@ -23,7 +23,7 @@ public class Main {
     }
 
     private static boolean validityCheck(String s) {
-        s = s.replaceAll("[+,-]", ""); // Remove delimeters
+        s = s.replaceAll("[+,-]", ""); // Remove delimiters
         if (s.length() == 12) {
             s = s.substring(2); // Ignore century digits
         } else if (s.length() != 10) {
