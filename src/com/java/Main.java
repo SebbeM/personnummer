@@ -14,14 +14,10 @@ public class Main {
             if (s.equalsIgnoreCase("q")) {
                 return;
             }
-            try {
-                valid = validityCheck(s);
-            } catch (IllegalArgumentException e) {
-                e.printStackTrace();
-            } finally {
-                if (valid) {
-                    System.out.println("The provided number is a valid personal identification number.");
-                }
+            if (validityCheck(s)) {
+                System.out.println("The provided number IS a valid personal identification number.");
+            } else {
+                System.out.println("The provided number IS NOT a valid personal identification number.");
             }
         }
     }
@@ -31,7 +27,7 @@ public class Main {
         if (s.length() == 12) {
             s = s.substring(2); // Ignore century digits
         } else if (s.length() != 10) {
-            throw new IllegalArgumentException("Provided String length not supported.");
+            return false;
         }
         ArrayList<Integer> numbers =  new ArrayList<>();
         for (int i = 0; i < 9; i++) {
