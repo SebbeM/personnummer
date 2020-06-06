@@ -1,5 +1,3 @@
-package com.java;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -17,20 +15,15 @@ public class Main {
                 return;
             }
             if (validityCheck(s)) {
-                System.out.println("The provided number IS a valid personal identification number.");
+                System.out.println(s + " IS a valid personal identification number.");
             } else {
-                System.out.println("The provided number IS NOT a valid personal identification number.");
+                System.out.println(s + " IS NOT a valid personal identification number.");
             }
         }
     }
 
     static boolean validityCheck(String s) {
-        if (isControlValid(s) && isDateValid(s)) {
-            return true;
-        } else {
-            System.out.println(s);
-            return false;
-        }
+        return isControlValid(s) && isDateValid(s);
     }
 
     /**
