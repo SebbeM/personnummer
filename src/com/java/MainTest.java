@@ -57,6 +57,11 @@ class MainTest {
         testArrays(validCoordinations, true);
     }
 
+    @Test
+    public void testOrganizations() {
+        testArrays(validOrganizations, true);
+    }
+
     private void testArrays(String[] array, boolean assertion) {
         for (String s : array) {
             boolean result = Main.validityCheck(s);
