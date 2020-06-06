@@ -80,23 +80,26 @@ public class Main {
      * @return true if date is valid, otherwise false
      */
     static boolean isDateValid(String s) {
-        String trimmed = trim(s);
-        int birthYear;
+        String birthYear, birthMonth, birthDay;
         int currentYear = LocalDate.now().getYear();
-        int birthMonth = Integer.parseInt(trimmed.substring(2, 4));
         int currentMonth = LocalDate.now().getMonth().getValue();
-        int birthDay = Integer.parseInt(trimmed.substring(4, 6));
         int currentDay = LocalDate.now().getDayOfMonth();
 
         if (s.length() > 11) { // Century is specified
-            birthYear = Integer.parseInt(trimmed.substring(0, 2));
+            birthYear = s.substring(0, 4);
+            birthMonth = s.substring(4, 6);
+            birthDay = s.substring(6, 8);
         } else { // Century is not specified
-            birthYear = Integer.parseInt(trimmed.substring(0, 2));
+            birthYear = s.substring(0, 2);
+            birthMonth = s.substring(2, 4);
+            birthDay = s.substring(4, 6);
             int currentCentury = currentYear / 100;
-            if (birthYear > currentYear && birthMonth > currentMonth && birthDay > currentDay) {
-                s = currentCentury - (s.contains("+") ? 2 : 1) + s;
+            if (Integer.parseInt(birthYear) > currentYear
+                    && Integer.parseInt(birthMonth) > currentMonth
+                    && Integer.parseInt(birthDay) > currentDay) {
+                birthYear = currentCentury - (s.contains("+") ? 2 : 1) + birthYear;
             } else {
-                s = currentCentury - (s.contains("+") ? 1 : 0) + s;
+                birthYear = currentCentury - (s.contains("+") ? 1 : 0) + birthYear;
             }
         }
         try {
