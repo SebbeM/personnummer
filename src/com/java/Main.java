@@ -56,10 +56,10 @@ public class Main {
      * @return true if control digit is correct, otherwise false
      */
     static boolean isControlValid (String s) {
-        s = trim(s);
+        String trimmed = trim(s);
         ArrayList<Integer> numbers =  new ArrayList<>();
         for (int i = 0; i < 9; i++) {
-            int value = Character.getNumericValue(s.charAt(i));
+            int value = Character.getNumericValue(trimmed.charAt(i));
             int doubled = value * (i % 2 == 0 ? 2 : 1);
             char[] digits = Integer.toString(doubled).toCharArray();
             for (char c : digits) {
@@ -71,11 +71,12 @@ public class Main {
             sum += n;
         }
         int control = (10 - (sum % 10)) % 10;
-        return control == Character.getNumericValue(s.charAt(9));
+        return control == Character.getNumericValue(trimmed.charAt(9));
     }
 
     /**
-     * Checks whether the date is valid
+     * Checks whether the date is valid. A valid date does not have to be a real date, but can also be a valid
+     * organization or coordination number.
      * @param s
      * @return true if date is valid, otherwise false
      */
@@ -105,6 +106,10 @@ public class Main {
 
         if (Integer.parseInt(birthDay) > 60) { // String is a coordination number
             birthDay = "" + (Integer.parseInt(birthDay) - 60);
+        }
+
+        if (Integer.parseInt(birthMonth) >= 20) { // String is an organization number
+            return true;
         }
 
         try {
