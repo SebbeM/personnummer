@@ -44,16 +44,27 @@ class MainTest {
 
     @Test
     public void testValids() {
-        for (String s: validPersonals) {
-            Assertions.assertTrue(Main.validityCheck(s));
-        }
+        testArrays(validPersonals, true);
     }
 
     @Test
     public void testInvalids() {
-        for (String s:invalidPersonals) {
-            System.out.println(s);
-            Assertions.assertFalse(Main.validityCheck(s));
+        testArrays(invalidPersonals, false);
+    }
+
+    @Test
+    public void testCoordinations() {
+        testArrays(validCoordinations, true);
+    }
+
+    private void testArrays(String[] array, boolean assertion) {
+        for (String s : array) {
+            boolean result = Main.validityCheck(s);
+            if (assertion == true) {
+                Assertions.assertTrue(result);
+            } else {
+                Assertions.assertFalse(result);
+            }
         }
     }
 
