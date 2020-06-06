@@ -102,6 +102,11 @@ public class Main {
                 birthYear = currentCentury - (s.contains("+") ? 1 : 0) + birthYear;
             }
         }
+
+        if (Integer.parseInt(birthDay) > 60) { // String is a coordination number
+            birthDay = "" + (Integer.parseInt(birthDay) - 60);
+        }
+
         try {
             LocalDate.parse(birthYear + "-" + birthMonth + "-" + birthDay);
         } catch (DateTimeParseException e) {
