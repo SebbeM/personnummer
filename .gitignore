@@ -1,6 +1,13 @@
-*.iml
+### Java ###
+*.class
+*.jar
 
-# Default ignored files
+### IntelliJ ###
 /shelf/
 /.idea
-/out/
+*.iml
+
+### Gradle ###
+.gradle
+java/build
+!gradle-wrapper.jar
