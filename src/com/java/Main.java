@@ -1,5 +1,7 @@
 package com.java;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -23,12 +25,38 @@ public class Main {
     }
 
     static boolean validityCheck(String s) {
+        if (isControlValid(s) && isDateValid(s)) {
+            return true;
+        } else {
+            System.out.println(s);
+            return false;
+        }
+    }
+
+    /**
+     * Turns Strings of different formats into YYMMDDXXXX
+     * @param s
+     * @return
+     */
+    static String trim(String s) {
         s = s.replaceAll("[+,-]", ""); // Remove delimiters
         if (s.length() == 12) {
             s = s.substring(2); // Ignore century digits
-        } else if (s.length() != 10) {
-            return false;
+        } else if (s.length() < 10) {
+            throw new IllegalArgumentException("Provided String too short");
+        } else if (s.length() > 10) {
+            throw new IllegalArgumentException("Provided String too long");
         }
+        return s;
+    }
+
+    /**
+     * Checks whether the control digit is correct
+     * @param s
+     * @return true if control digit is correct, otherwise false
+     */
+    static boolean isControlValid (String s) {
+        s = trim(s);
         ArrayList<Integer> numbers =  new ArrayList<>();
         for (int i = 0; i < 9; i++) {
             int value = Character.getNumericValue(s.charAt(i));
@@ -44,5 +72,38 @@ public class Main {
         }
         int control = (10 - (sum % 10)) % 10;
         return control == Character.getNumericValue(s.charAt(9));
+    }
+
+    /**
+     * Checks whether the date is valid
+     * @param s
+     * @return true if date is valid, otherwise false
+     */
+    static boolean isDateValid(String s) {
+        String trimmed = trim(s);
+        int birthYear;
+        int currentYear = LocalDate.now().getYear();
+        int birthMonth = Integer.parseInt(trimmed.substring(2, 4));
+        int currentMonth = LocalDate.now().getMonth().getValue();
+        int birthDay = Integer.parseInt(trimmed.substring(4, 6));
+        int currentDay = LocalDate.now().getDayOfMonth();
+
+        if (s.length() > 11) { // Century is specified
+            birthYear = Integer.parseInt(trimmed.substring(0, 2));
+        } else { // Century is not specified
+            birthYear = Integer.parseInt(trimmed.substring(0, 2));
+            int currentCentury = currentYear / 100;
+            if (birthYear > currentYear && birthMonth > currentMonth && birthDay > currentDay) {
+                s = currentCentury - (s.contains("+") ? 2 : 1) + s;
+            } else {
+                s = currentCentury - (s.contains("+") ? 1 : 0) + s;
+            }
+        }
+        try {
+            LocalDate.parse(birthYear + "-" + birthMonth + "-" + birthDay);
+        } catch (DateTimeParseException e) {
+            return false;
+        }
+        return true;
     }
 }
